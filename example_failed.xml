@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ns:ExecuteResponse xmlns:ns="http://www.opengis.net/wps/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsExecute_response.xsd" serviceInstance="http://sb-10-16-10-16.dev.terradue.int:8080/wps/WebProcessingService?REQUEST=GetCapabilities&amp;SERVICE=WPS" xml:lang="en-US" service="WPS" version="1.0.0" statusLocation="http://sb-10-16-10-16.dev.terradue.int:8080/wps/RetrieveResultServlet?id=02c6ca05-afc7-4223-8d12-58742b0a149e">
+  <ns:Process ns:processVersion="1.0.0">
+    <ns1:Identifier xmlns:ns1="http://www.opengis.net/ows/1.1">com.terradue.wps_oozie.process.OozieAbstractAlgorithm</ns1:Identifier>
+    <ns1:Title xmlns:ns1="http://www.opengis.net/ows/1.1">SRTM Digital Elevation Model</ns1:Title>
+  </ns:Process>
+  <ns:Status creationTime="2016-04-26T11:16:58.912+02:00">
+    <ns:ProcessFailed>
+      <ns1:ExceptionReport xmlns:ns1="http://www.opengis.net/ows/1.1">
+        <ns1:Exception>
+          <ns1:ExceptionText>java.lang.RuntimeException: Error executing node_srtmdem - [ERROR  ][user process] Error 7 - DEM not generated, processing aborted</ns1:ExceptionText>
+        </ns1:Exception>
+      </ns1:ExceptionReport>
+    </ns:ProcessFailed>
+  </ns:Status>
+</ns:ExecuteResponse>

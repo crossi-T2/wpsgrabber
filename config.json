@@ -1,0 +1,6 @@
+{
+     "RootDir": "/tmp/foo",
+     "CSVOutputDir": "/tmp/csv",
+     "ProcessorCode": "nextgeoss-sentinel2-biopar",
+     "ProcessorVersion": "1.4"
+}

@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ns:ExecuteResponse xmlns:ns="http://www.opengis.net/wps/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsExecute_response.xsd" serviceInstance="http://sb-10-16-10-16.dev.terradue.int:8080/wps/WebProcessingService?REQUEST=GetCapabilities&amp;SERVICE=WPS" xml:lang="en-US" service="WPS" version="1.0.0" statusLocation="http://sb-10-16-10-16.dev.terradue.int:8080/wps/RetrieveResultServlet?id=bcf8a64b-523f-4a7d-9a71-4eb929b7a2b5">
+  <ns:Process ns:processVersion="1.0.0">
+    <ns1:Identifier xmlns:ns1="http://www.opengis.net/ows/1.1">com.terradue.wps_oozie.process.OozieAbstractAlgorithm</ns1:Identifier>
+    <ns1:Title xmlns:ns1="http://www.opengis.net/ows/1.1">SRTM Digital Elevation Model</ns1:Title>
+  </ns:Process>
+  <ns:Status creationTime="2016-04-26T11:08:06.341+02:00">
+    <ns:ProcessSucceeded>Process successful</ns:ProcessSucceeded>
+  </ns:Status>
+  <ns:ProcessOutputs>
+    <ns:Output>
+      <ns1:Identifier xmlns:ns1="http://www.opengis.net/ows/1.1">result_osd</ns1:Identifier>
+      <ns1:Title xmlns:ns1="http://www.opengis.net/ows/1.1">OpenSearch Description to the Results</ns1:Title>
+      <ns:Data>
+        <ns:ComplexData mimeType="application/xml">
+          <ns:Reference href="http://sb-10-16-10-16.dev.terradue.int/sbws/wps/srtmdem/0000000-160401000032329-oozie-oozi-W/results/description" method="GET" mimeType="application/opensearchdescription+xml"/>
+        </ns:ComplexData>
+      </ns:Data>
+    </ns:Output>
+    <ns:Output>
+      <ns1:Identifier xmlns:ns1="http://www.opengis.net/ows/1.1">result_distribution</ns1:Identifier>
+      <ns1:Title xmlns:ns1="http://www.opengis.net/ows/1.1">Result Files Distribution Package</ns1:Title>
+      <ns:Data>
+        <ns:ComplexData mimeType="application/xml">
+          <ns:Reference href="http://sb-10-16-10-16.dev.terradue.int:50070/webhdfs/v1/ciop/run/srtmdem/0000000-160401000032329-oozie-oozi-W/results.metalink?op=OPEN" method="GET" mimeType="application/metalink4+xml"/>
+        </ns:ComplexData>
+      </ns:Data>
+    </ns:Output>
+  </ns:ProcessOutputs>
+</ns:ExecuteResponse>
