@@ -1,4 +1,4 @@
-package main
+package wpsgrabber
 
 import (
 	"github.com/fsnotify/fsnotify"
@@ -18,9 +18,9 @@ type Configuration struct {
 
 var configuration Configuration = Configuration{}
 
-func watch() {
+func Watch(configfile string) {
 
-	err := gonfig.GetConf("./config.json", &configuration)
+	err := gonfig.GetConf(configfile, &configuration)
 
 	if err != nil {
 		log.Fatal(err)

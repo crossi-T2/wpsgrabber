@@ -1,4 +1,4 @@
-package main
+package wpsgrabber
 
 import (
 	"encoding/xml"
