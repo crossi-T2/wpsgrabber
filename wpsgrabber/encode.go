@@ -7,14 +7,28 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"time"
 )
 
 func createCSV(executeResponse *ExecuteResponse) {
 
 	// TODO: if we add the request.xml in "not used" we would need to encode commas
 
+	//	starttime, err := time.Parse(time.RFC3339, executeResponse.Status.CreationTime)
+	//	if err != nil {
+	//		log.Fatal(err)
+	//	}
+
+	loc, _ := time.LoadLocation("UTC")
+
 	records := [][]string{
-		{configuration.ProcessorCode, configuration.ProcessorVersion, "wpsid", "not used", "start", "stop", strconv.Itoa(executeResponse.Status.ProcessStatus)},
+		{configuration.ProcessorCode,
+			configuration.ProcessorVersion,
+			"wpsid",
+			"not used",
+			executeResponse.Status.CreationTime.In(loc).Format(time.RFC3339),
+			executeResponse.Status.EndTime.In(loc).Format(time.RFC3339),
+			strconv.Itoa(executeResponse.Status.ProcessStatus)},
 	}
 
 	file, err := os.Create(filepath.Join(configuration.CSVOutputDir, uuid.New().String()+".csv"))

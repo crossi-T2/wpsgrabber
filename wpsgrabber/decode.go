@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"time"
 )
 
 type ExecuteResponse struct {
@@ -21,8 +22,10 @@ type Process struct {
 }
 
 type Status struct {
-	XMLName          xml.Name `xml:"Status"`
-	CreationTime     string   `xml:"creationTime,attr"`
+	XMLName xml.Name `xml:"Status"`
+	//CreationTime     string   `xml:"creationTime,attr"`
+	CreationTime     time.Time `xml:"creationTime,attr"`
+	EndTime          time.Time
 	ProcessFailed    xml.Name `xml:"ProcessFailed,omitempty"`
 	ProcessSucceeded xml.Name `xml:"ProcessSucceeded,omitempty"`
 	ProcessStatus    int
@@ -45,13 +48,21 @@ func parseExecuteResponse(responseFile string) *ExecuteResponse {
 		log.Fatal(err)
 	}
 
-	if executeResponse.Status.ProcessSucceeded.Local != "" {
-		executeResponse.Status.ProcessStatus = 0
-		return &executeResponse
-	}
+	if executeResponse.Status.ProcessSucceeded.Local != "" ||
+		executeResponse.Status.ProcessFailed.Local != "" {
 
-	if executeResponse.Status.ProcessFailed.Local != "" {
-		executeResponse.Status.ProcessStatus = 1
+		// Determine the EndTime of the executeResponse by inspecting
+		// the creation time of the responseFile
+		stat, _ := os.Stat(responseFile)
+
+		executeResponse.Status.EndTime = stat.ModTime()
+
+		// Determine the value for executeResponse.Status.ProcessStatus
+		if executeResponse.Status.ProcessSucceeded.Local != "" {
+			executeResponse.Status.ProcessStatus = 0
+		} else {
+			executeResponse.Status.ProcessStatus = 1
+		}
 	}
 
 	return &executeResponse
