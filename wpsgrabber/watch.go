@@ -42,7 +42,6 @@ func Watch(configfile string) {
 				}
 				// We are only interested in newly created files
 				if event.Op&fsnotify.Create == fsnotify.Create {
-					log.Println("Created:", event.Name)
 					file, err := os.Stat(event.Name)
 					if err != nil {
 						log.Println(err)
@@ -50,12 +49,14 @@ func Watch(configfile string) {
 					}
 
 					if file.Mode().IsDir() {
+						log.Println("New directory:", event.Name)
 						err = watcher.Add(event.Name)
 						if err != nil {
 							log.Fatal(err)
 						}
 						log.Println("Watching:", event.Name)
 					} else {
+						log.Println("New file:", event.Name)
 						// We do expect updates in XML files in the form 0.xml 1.xml 2.xml etc.
 						matched, _ := regexp.MatchString(`^[0-9]+.xml$`, path.Base(event.Name))
 						if matched {

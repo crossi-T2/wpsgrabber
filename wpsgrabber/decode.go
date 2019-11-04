@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -16,14 +17,14 @@ type ExecuteResponse struct {
 }
 
 type Process struct {
-	XMLName    xml.Name `xml:"Process"`
-	Identifier string   `xml:"Identifier"`
-	Title      string   `xml:"Title"`
+	XMLName           xml.Name `xml:"Process"`
+	Identifier        string   `xml:"Identifier"`
+	Title             string   `xml:"Title"`
+	CurrentIdentifier string
 }
 
 type Status struct {
-	XMLName xml.Name `xml:"Status"`
-	//CreationTime     string   `xml:"creationTime,attr"`
+	XMLName          xml.Name  `xml:"Status"`
 	CreationTime     time.Time `xml:"creationTime,attr"`
 	EndTime          time.Time
 	ProcessFailed    xml.Name `xml:"ProcessFailed,omitempty"`
@@ -54,8 +55,11 @@ func parseExecuteResponse(responseFile string) *ExecuteResponse {
 		// Determine the EndTime of the executeResponse by inspecting
 		// the creation time of the responseFile
 		stat, _ := os.Stat(responseFile)
-
 		executeResponse.Status.EndTime = stat.ModTime()
+
+		// Determine the CurrentIdentifier, based on the name of the parent
+		// directory
+		executeResponse.Process.CurrentIdentifier = filepath.Base(filepath.Dir(responseFile))
 
 		// Determine the value for executeResponse.Status.ProcessStatus
 		if executeResponse.Status.ProcessSucceeded.Local != "" {
