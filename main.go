@@ -1,10 +1,14 @@
 package main
 
-import wpsgrabber "github.com/crossi-T2/wpsgrabber/wpsgrabber"
+import (
+	"flag"
+	wpsgrabber "github.com/crossi-T2/wpsgrabber/wpsgrabber"
+)
 
 func main() {
 
-	configfile := "/Users/crossi/go/src/github.com/crossi-T2/wpsgrabber/wpsgrabber/config.json"
+	configFile := flag.String("c", "/etc/wpsgrabber/config.json", "Configuration file path")
+	flag.Parse()
 
-	wpsgrabber.Watch(configfile)
+	wpsgrabber.New(*configFile)
 }
