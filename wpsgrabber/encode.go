@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func createCSV(executeResponse *ExecuteResponse) {
+func createCSV(executeResponse *ExecuteResponse) error {
 
 	loc, _ := time.LoadLocation("UTC")
 
@@ -37,7 +37,7 @@ func createCSV(executeResponse *ExecuteResponse) {
 	filename := filepath.Join(configuration.CSVOutputDir, uuid.New().String()+".csv")
 	file, err := os.Create(filename)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	defer file.Close()
@@ -49,9 +49,12 @@ func createCSV(executeResponse *ExecuteResponse) {
 
 	for _, record := range records {
 		if err := w.Write(record); err != nil {
-			log.Fatalln("error writing record to csv:", err)
+			log.Print("error writing record to csv:", err)
+			return err
 		}
 	}
 
 	log.Println("CSV created:", filename)
+
+	return nil
 }
