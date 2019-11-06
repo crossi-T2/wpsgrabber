@@ -17,10 +17,11 @@ type ExecuteResponse struct {
 }
 
 type Process struct {
-	XMLName           xml.Name `xml:"Process"`
-	Identifier        string   `xml:"Identifier"`
-	Title             string   `xml:"Title"`
-	CurrentIdentifier string
+	XMLName            xml.Name `xml:"Process"`
+	Identifier         string   `xml:"Identifier"`
+	Version            string   `xml:"processVersion,attr"`
+	Title              string   `xml:"Title"`
+	WorkflowIdentifier string
 }
 
 type Status struct {
@@ -57,9 +58,9 @@ func parseExecuteResponse(responseFile string) *ExecuteResponse {
 		stat, _ := os.Stat(responseFile)
 		executeResponse.Status.EndTime = stat.ModTime()
 
-		// Determine the CurrentIdentifier, based on the name of the parent
+		// Determine the WorkflowIdentifier, based on the name of the parent
 		// directory
-		executeResponse.Process.CurrentIdentifier = filepath.Base(filepath.Dir(responseFile))
+		executeResponse.Process.WorkflowIdentifier = filepath.Base(filepath.Dir(responseFile))
 
 		// Determine the value for executeResponse.Status.ProcessStatus
 		if executeResponse.Status.ProcessSucceeded.Local != "" {

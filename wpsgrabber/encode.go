@@ -14,10 +14,20 @@ func createCSV(executeResponse *ExecuteResponse) {
 
 	loc, _ := time.LoadLocation("UTC")
 
+	processIdentifier := executeResponse.Process.Identifier
+	if configuration.ProcessIdentifier != "" {
+		processIdentifier = configuration.ProcessIdentifier
+	}
+
+	processVersion := executeResponse.Process.Version
+	if configuration.ProcessVersion != "" {
+		processVersion = configuration.ProcessVersion
+	}
+
 	records := [][]string{
-		{configuration.ProcessorCode,
-			configuration.ProcessorVersion,
-			executeResponse.Process.CurrentIdentifier,
+		{processIdentifier,
+			processVersion,
+			executeResponse.Process.WorkflowIdentifier,
 			"not used",
 			executeResponse.Status.CreationTime.In(loc).Format(time.RFC3339),
 			executeResponse.Status.EndTime.In(loc).Format(time.RFC3339),
