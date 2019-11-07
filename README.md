@@ -4,16 +4,7 @@ wpsgrabber is a tool for watching processing reports from a [52north WPS server]
 
 ## Usage
 
-First define a *config.json* configuration file:
-
-```golang
-type Configuration struct {
-	Port              int
-	Connection_String string
-}
-```
-
-Then fill in our JSON file:
+First define a *config.json* JSON configuration file:
 
 ```json
 {
