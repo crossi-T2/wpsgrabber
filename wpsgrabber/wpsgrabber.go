@@ -9,10 +9,12 @@ import (
 	"path"
 	"path/filepath"
 	"regexp"
+	"time"
 )
 
 type Configuration struct {
 	RootDir           string
+	ScanFrom          time.Time
 	CSVOutputDir      string
 	ProcessIdentifier string
 	ProcessVersion    string
@@ -20,13 +22,48 @@ type Configuration struct {
 
 var configuration Configuration = Configuration{}
 
-func New(configfile string) error {
+func New(configFile string) error {
 
-	err := gonfig.GetConf(configfile, &configuration)
+	err := gonfig.GetConf(configFile, &configuration)
 
 	if err != nil {
-		errors.Wrap(err, "error getting configuration from "+configfile)
+		errors.Wrap(err, "error getting configuration from "+configFile)
 		return err
+	}
+
+	// If ScanFrom was configured, it would scan the RootDir for WPS Execute response reports
+	if !configuration.ScanFrom.IsZero() {
+
+		// Walks the RootDir for reports
+		err := filepath.Walk(configuration.RootDir,
+			func(path string, file os.FileInfo, err error) error {
+				if err != nil {
+					return err
+				}
+				if !file.IsDir() {
+					if file.ModTime().After(configuration.ScanFrom) {
+
+						response := parseExecuteResponse(path)
+
+						if response.Status.ProcessStatus == 0 ||
+							response.Status.ProcessStatus == 1 {
+
+							log.Println("Found:", path)
+							err = createCSV(response)
+
+							if err != nil {
+								errors.Wrap(err, "error creating CSV from response")
+								return err
+							}
+						}
+					}
+				}
+				return nil
+			})
+		if err != nil {
+			log.Println(err)
+		}
+
 	}
 
 	watcher, err := fsnotify.NewWatcher()
