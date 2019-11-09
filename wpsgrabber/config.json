@@ -1,7 +1,0 @@
-{
-     "RootDir": "/tmp/foo",
-     "ScanFrom": "1983-05-22T14:13:00Z",
-     "CSVOutputDir": "/tmp/csv",
-     "ProcessIdentifier": "nextgeoss-sentinel2-biopar",
-     "ProcessVersion": "1.4"
-}

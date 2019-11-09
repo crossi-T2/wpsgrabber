@@ -3,7 +3,8 @@ package wpsgrabber
 import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/pkg/errors"
-	"github.com/tkanos/gonfig"
+	"gopkg.in/yaml.v2"
+	"io/ioutil"
 	"log"
 	"os"
 	"path"
@@ -13,23 +14,23 @@ import (
 )
 
 type Configuration struct {
-	RootDir           string
-	ScanFrom          time.Time
-	CSVOutputDir      string
-	ProcessIdentifier string
-	ProcessVersion    string
+	RootDir           string    `yaml:"RootDir"`
+	ScanFrom          time.Time `yaml:"ScanFrom"`
+	CSVOutputDir      string    `yaml:"CSVOutputDir"`
+	ProcessIdentifier string    `yaml:"ProcessIdentifier"`
+	ProcessVersion    string    `yaml:"ProcessVersion"`
 }
 
 var configuration Configuration = Configuration{}
 
 func New(configFile string) error {
 
-	err := gonfig.GetConf(configFile, &configuration)
-
+	yamlFile, err := ioutil.ReadFile(configFile)
 	if err != nil {
-		errors.Wrap(err, "error getting configuration from "+configFile)
+		log.Printf("yamlFile.Get err   #%v ", err)
 		return err
 	}
+	err = yaml.Unmarshal(yamlFile, &configuration)
 
 	// If ScanFrom was configured, it would scan the RootDir for WPS Execute response reports
 	if !configuration.ScanFrom.IsZero() {
