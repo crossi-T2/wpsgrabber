@@ -2,15 +2,13 @@ package wpsgrabber
 
 import (
 	"encoding/csv"
-	"github.com/google/uuid"
-	"log"
+	"fmt"
 	"os"
-	"path/filepath"
 	"strconv"
 	"time"
 )
 
-func createCSV(executeResponse *ExecuteResponse) error {
+func createCSV(filename string, executeResponse *ExecuteResponse) error {
 
 	loc, _ := time.LoadLocation("UTC")
 
@@ -34,9 +32,9 @@ func createCSV(executeResponse *ExecuteResponse) error {
 			strconv.Itoa(executeResponse.Status.ProcessStatus)},
 	}
 
-	filename := filepath.Join(configuration.CSVOutputDir, uuid.New().String()+".csv")
 	file, err := os.Create(filename)
 	if err != nil {
+		err = fmt.Errorf("can't create file %s : %v ", filename, err)
 		return err
 	}
 
@@ -49,12 +47,10 @@ func createCSV(executeResponse *ExecuteResponse) error {
 
 	for _, record := range records {
 		if err := w.Write(record); err != nil {
-			log.Print("error writing record to csv:", err)
+			err = fmt.Errorf("can't write record to CSV %s: %v", filename, err)
 			return err
 		}
 	}
-
-	log.Println("CSV created:", filename)
 
 	return nil
 }

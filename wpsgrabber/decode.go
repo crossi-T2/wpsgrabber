@@ -4,7 +4,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"time"
@@ -33,11 +32,12 @@ type Status struct {
 	ProcessStatus    int
 }
 
-func parseExecuteResponse(responseFile string) *ExecuteResponse {
+func parseExecuteResponse(responseFile string) (*ExecuteResponse, error) {
 
 	file, err := os.Open(responseFile)
 	if err != nil {
-		fmt.Println(err)
+		err = fmt.Errorf("can't open file: %v ", err)
+		return nil, err
 	}
 
 	defer file.Close()
@@ -47,14 +47,15 @@ func parseExecuteResponse(responseFile string) *ExecuteResponse {
 	var executeResponse ExecuteResponse
 
 	if err := xml.Unmarshal(byteValue, &executeResponse); err != nil {
-		log.Fatal(err)
+		err = fmt.Errorf("can't unmarshal file: %v ", err)
+		return nil, err
 	}
 
 	if executeResponse.Status.ProcessSucceeded.Local != "" ||
 		executeResponse.Status.ProcessFailed.Local != "" {
 
 		// Determine the EndTime of the executeResponse by inspecting
-		// the creation time of the responseFile
+		// the modification time of the responseFile
 		stat, _ := os.Stat(responseFile)
 		executeResponse.Status.EndTime = stat.ModTime()
 
@@ -70,5 +71,5 @@ func parseExecuteResponse(responseFile string) *ExecuteResponse {
 		}
 	}
 
-	return &executeResponse
+	return &executeResponse, nil
 }
