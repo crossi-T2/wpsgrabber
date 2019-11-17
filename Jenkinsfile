@@ -1,5 +1,6 @@
 node('c7-jenkins-go') {
 
+	env.GOPATH = env.WORKSPACE
 	env.PATH="${GOPATH}/bin:$PATH"
 
 	stage('Checkout'){
