@@ -1,7 +1,7 @@
 node('c7-jenkins-go') {
 
 	env.GOPATH = env.WORKSPACE
-	env.PATH="${GOPATH}/bin:$PATH"
+	env.PATH="/usr/local/go/bin/:${GOPATH}:${PATH}"
 
 	stage('Checkout'){
 		echo 'Checking out SCM'
