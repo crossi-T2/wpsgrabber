@@ -28,7 +28,7 @@ node('c7-jenkins-go') {
 		//sh """cd $GOPATH && go tool vet ${paths}"""
 
 		echo 'Linting'
-		sh """cd $GOPATH && golint ${paths}"""
+		//sh """cd $GOPATH && golint ${paths}"""
 
 		echo 'Testing'
 		//sh """cd $GOPATH && go test -race -cover ${paths}"""
