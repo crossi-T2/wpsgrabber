@@ -1,4 +1,4 @@
-package wpsgrabber
+package main
 
 import (
 	"encoding/csv"

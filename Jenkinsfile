@@ -12,6 +12,7 @@ node('c7-jenkins-go') {
 		echo 'Pulling Dependencies'
 			
 		sh 'go version'
+		sh 'go get -d ./...'
 	}
 
 	stage('Test'){
@@ -37,7 +38,6 @@ node('c7-jenkins-go') {
 	stage('Build'){
 		echo 'Building Executable'
 
-		//Produced binary is $GOPATH/src/cmd/project/project
-		sh """cd $GOPATH && go build -ldflags '-s'"""
+		sh """go build -o wpsgrabber -ldflags '-s' cmd/wpsgrabber/*.go"""
 	}
 }

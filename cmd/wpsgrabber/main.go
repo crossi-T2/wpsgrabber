@@ -1,7 +1,8 @@
-package wpsgrabber
+package main
 
 import (
 	"errors"
+	"flag"
 	"fmt"
 	"github.com/fsnotify/fsnotify"
 	"github.com/google/uuid"
@@ -24,6 +25,18 @@ type Configuration struct {
 }
 
 var configuration Configuration = Configuration{}
+
+func main() {
+
+	configFile := flag.String("config", "/etc/wpsgrabber/config.json", "Configuration file path")
+	flag.Parse()
+
+	err := New(*configFile)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 func New(configFile string) error {
 
