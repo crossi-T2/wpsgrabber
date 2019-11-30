@@ -1,0 +1,15 @@
+[Unit]
+Description=Service for wpsgrabber
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/local/bin/wpsgrabber /config=/etc/wpsgrabber/wpsgrabber.config /logfile=/var/log/wpsgrabber/wpsgrabber.log
+Restart=always
+RestartSec=5
+TimeoutStopSec=5
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
