@@ -15,9 +15,9 @@ node('c7-jenkins-go') {
 		sh 'go get -d ./...'
 
 		echo 'Preparing rpmbuild workspace'
+		echo '(requires rpm-build redhat-rpm-config rpmdevtools libtool)'
         	
-		sh 'sudo yum -y install rpm-build redhat-rpm-config rpmdevtools libtool'
-        	sh 'mkdir -p $WORKSPACE/build/{BUILD,RPMS,SOURCES,SPECS,SRPMS}'
+		sh 'mkdir -p $WORKSPACE/build/{BUILD,RPMS,SOURCES,SPECS,SRPMS}'
         	sh 'cp wpsgrabber.spec $WORKSPACE/build/SPECS/'
         	sh 'cp -r init $WORKSPACE/build/SOURCES/'
         	sh 'cp -r configs $WORKSPACE/build/SOURCES/'
