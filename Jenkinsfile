@@ -18,7 +18,7 @@ node('c7-jenkins-go') {
 		echo '(requires rpm-build redhat-rpm-config rpmdevtools libtool)'
         	
 		sh 'mkdir -p $WORKSPACE/build/{BUILD,RPMS,SOURCES,SPECS,SRPMS}'
-        	sh 'cp wpsgrabber.spec $WORKSPACE/build/SPECS/'
+        	sh 'cp build/package/wpsgrabber.spec $WORKSPACE/build/SPECS/'
         	sh 'cp -r init $WORKSPACE/build/SOURCES/'
         	sh 'cp -r configs $WORKSPACE/build/SOURCES/'
         	sh 'spectool -g -R --directory $WORKSPACE/build/SOURCES $WORKSPACE/build/SPECS/wpsgrabber.spec'
