@@ -20,23 +20,46 @@ wpsgrabber is a tool for watching processing reports from a 52north WPS server (
 
 
 %install
-mkdir -p %{buildroot}%{_unitdir}
-cp %{_sourcedir}/init/wpsgrabber.service %{buildroot}%{_unitdir}
-mkdir -p %{buildroot}%{_sysconfdir}/wpsgrabber
+mkdir -p %{buildroot}%{_sysconfdir}/wpsgrabber/init
+cp %{_sourcedir}/init/wpsgrabber.service %{buildroot}%{_sysconfdir}/wpsgrabber/init/
+cp %{_sourcedir}/init/wpsgrabber %{buildroot}%{_sysconfdir}/wpsgrabber/init/
 cp -r %{_sourcedir}/configs/config.yaml %{buildroot}%{_sysconfdir}/wpsgrabber
 mkdir -p %{buildroot}/usr/local/bin/
 cp %{_sourcedir}/wpsgrabber %{buildroot}/usr/local/bin/
 
 %post
+#!/bin/bash
 mkdir -p /var/log/wpsgrabber/
 
+centos=$(rpm -E %{rhel})
+
+if [ "${centos}" == "6" ]; then
+    cp /etc/wpsgrabber/init/wpsgrabber /etc/init.d/
+    chmod +x /etc/init.d/wpsgrabber
+else
+    if [ "${centos}" == "7" ]; then
+        /etc/wpsgrabber/init/wpsgrabber.service /usr/lib/systemd/system/
+    fi
+fi
+
 %postun
+#!/bin/bash
+rm -rf /var/log/wpsgrabber/
+
+centos=$(rpm -E %{rhel})
+
+if [ "${centos}" == "6" ]; then
+    rm -f /etc/init.d/wpsgrabber
+else
+    if [ "${centos}" == "7" ]; then
+        rm -f /usr/lib/systemd/system/wpsgrabber.service
+    fi
+fi
 
 %clean
 rm -rf %{buildroot}
 
 %files
-%{_unitdir}/*
 %config(noreplace) %{_sysconfdir}/*
 /usr/local/bin/wpsgrabber
 
