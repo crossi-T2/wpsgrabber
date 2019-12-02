@@ -60,7 +60,7 @@ node('c7-jenkins-go') {
 
 	stage('Package') {
         	echo 'Packaging'
-        	sh """sudo rpmbuild --define \"_topdir $WORKSPACE/build\" -ba --define '_branch ${env.BRANCH_NAME}' --define '_release ${env.release}' $WORKSPACE/build/SPECS/wpsgrabber.spec"""
+        	sh """rpmbuild --define \"_topdir $WORKSPACE/build\" -ba --define '_branch ${env.BRANCH_NAME}' --define '_release ${env.release}' $WORKSPACE/build/SPECS/wpsgrabber.spec"""
         	sh 'rpm -qpl $WORKSPACE/build/RPMS/*/*.rpm'
     	}
 
