@@ -71,7 +71,7 @@ node('c7-jenkins-go') {
             		def server = Artifactory.server "repository.terradue.com"
 
             		// Read the upload specs:
-            		def uploadSpec = readFile 'artifactdeploy.json'
+            		def uploadSpec = readFile 'build/deploy/artifactdeploy.json'
 
             		// Upload files to Artifactory:
             		def buildInfo = server.upload spec: uploadSpec
