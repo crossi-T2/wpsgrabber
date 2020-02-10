@@ -55,7 +55,7 @@ node('c7-jenkins-go') {
 	stage('Build'){
 		echo 'Building Executable'
 
-		sh """go build -o wpsgrabber -ldflags '-s' cmd/wpsgrabber/*.go"""
+		sh """go build -o $WORKSPACE/build/SOURCES/wpsgrabber -ldflags '-s' cmd/wpsgrabber/*.go"""
 	}
 
 	stage('Package') {
