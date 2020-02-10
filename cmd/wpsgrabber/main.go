@@ -95,7 +95,7 @@ func New(configFile string) error {
 
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
-		fmt.Errorf("can't create fsnotify watcher: %v", err)
+		err = fmt.Errorf("can't create fsnotify watcher: %v", err)
 		return err
 	}
 	defer watcher.Close()
@@ -112,7 +112,7 @@ func New(configFile string) error {
 				if event.Op&fsnotify.Create == fsnotify.Create {
 					file, err := os.Stat(event.Name)
 					if err != nil {
-						fmt.Errorf("can't get information from %s: %v ", event.Name, err)
+						err = fmt.Errorf("can't get information from %s: %v ", event.Name, err)
 						return err
 					}
 
@@ -120,7 +120,7 @@ func New(configFile string) error {
 						log.Println("new directory:", event.Name)
 						err = watcher.Add(event.Name)
 						if err != nil {
-							fmt.Errorf("can't watch %s: %v ", event.Name, err)
+							err = fmt.Errorf("can't watch %s: %v ", event.Name, err)
 							return err
 						}
 						log.Println("watching:", event.Name)
