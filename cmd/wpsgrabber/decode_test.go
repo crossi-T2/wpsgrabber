@@ -11,8 +11,8 @@ func TestParseExecuteResponse(t *testing.T) {
 
 	currentWorkingDir, _ := os.Getwd()
 
-	exampleSucceeded := filepath.Join(currentWorkingDir, "resources", "example_succeeded.xml")
-	exampleFailed := filepath.Join(currentWorkingDir, "resources", "example_failed.xml")
+	exampleSucceeded := filepath.Join(currentWorkingDir, "testdata", "example_succeeded.xml")
+	exampleFailed := filepath.Join(currentWorkingDir, "testdata", "example_failed.xml")
 
 	var tests = []struct {
 		path         string
