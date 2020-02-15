@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"github.com/fsnotify/fsnotify"
-	"github.com/google/uuid"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
@@ -19,7 +18,7 @@ import (
 type Configuration struct {
 	RootDir           string    `yaml:"RootDir"`
 	ScanFrom          time.Time `yaml:"ScanFrom"`
-	CSVOutputDir      string    `yaml:"CSVOutputDir"`
+	OutputDir         string    `yaml:"OutputDir"`
 	ProcessIdentifier string    `yaml:"ProcessIdentifier"`
 	ProcessVersion    string    `yaml:"ProcessVersion"`
 }
@@ -28,7 +27,7 @@ var configuration Configuration = Configuration{}
 
 func main() {
 
-	configFile := flag.String("config", "/etc/wpsgrabber/config.json", "Configuration file path")
+	configFile := flag.String("config", "/etc/wpsgrabber/config.yaml", "Configuration file path")
 	flag.Parse()
 
 	err := New(*configFile)
@@ -60,28 +59,22 @@ func New(configFile string) error {
 				if !file.IsDir() {
 					if file.ModTime().After(configuration.ScanFrom) {
 
-						response, err := parseExecuteResponse(path)
-
-						if err != nil {
-							err = fmt.Errorf("can't parse %s: %v ", path, err)
-							return err
-						}
-
-						if response.Status.ProcessStatus == 0 ||
-							response.Status.ProcessStatus == 1 {
-
-							log.Println("found:", path)
-
-							CSVfilename := filepath.Join(configuration.CSVOutputDir, uuid.New().String()+".csv")
-
-							err := createCSV(CSVfilename, response)
+						// We do expect updates in XML files in the form 0.xml 1.xml 2.xml etc.
+						matched, _ := regexp.MatchString(`.*.xml$`, path)
+						if matched {
+							response, err := parseExecuteResponse(path)
 
 							if err != nil {
-								err = fmt.Errorf("failed CSV encoding for %s: %v", path, err)
+								err = fmt.Errorf("can't parse %s: %v ", path, err)
 								return err
 							}
 
-							log.Println("CSV file created:", CSVfilename)
+							if response.Status.ProcessStatus == 0 ||
+								response.Status.ProcessStatus == 1 {
+
+								log.Println("found:", path)
+								EncodeResponse(response, path)
+							}
 						}
 					}
 				}
@@ -138,15 +131,7 @@ func New(configFile string) error {
 							if response.Status.ProcessStatus == 0 ||
 								response.Status.ProcessStatus == 1 {
 
-								CSVfilename := filepath.Join(configuration.CSVOutputDir, uuid.New().String()+".csv")
-								err = createCSV(CSVfilename, response)
-
-								if err != nil {
-									err = fmt.Errorf("failed CSV encoding for %s: %v", event.Name, err)
-									return err
-								}
-
-								log.Println("CSV file created:", CSVfilename)
+								EncodeResponse(response, event.Name)
 
 								// At this stage, there is no need to continue watching the parent
 								// folder, since the processing execution information has been managed.
@@ -179,6 +164,28 @@ func New(configFile string) error {
 
 	log.Println("watching:", configuration.RootDir)
 	<-done
+
+	return nil
+
+}
+
+func EncodeResponse(response *ExecuteResponse, sourcePath string) error {
+
+	CSVfilename := filepath.Join(configuration.OutputDir, response.Process.WorkflowIdentifier+"_run.csv")
+	XMLfilename := filepath.Join(configuration.OutputDir, response.Process.WorkflowIdentifier+"_request.xml")
+
+	err := createCSV(CSVfilename, response)
+
+	if err != nil {
+		err = fmt.Errorf("failed CSV encoding for %s: %v", sourcePath, err)
+		return err
+	}
+
+	sourceFile, _ := ioutil.ReadFile(sourcePath)
+	ioutil.WriteFile(XMLfilename, sourceFile, 0644)
+
+	log.Println("CSV file created:", CSVfilename)
+	log.Println("XML file created:", XMLfilename)
 
 	return nil
 

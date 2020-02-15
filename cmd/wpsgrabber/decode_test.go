@@ -11,8 +11,10 @@ func TestParseExecuteResponse(t *testing.T) {
 
 	currentWorkingDir, _ := os.Getwd()
 
-	exampleSucceeded := filepath.Join(currentWorkingDir, "testdata", "example_succeeded.xml")
-	exampleFailed := filepath.Join(currentWorkingDir, "testdata", "example_failed.xml")
+	exampleSucceeded := filepath.Join(currentWorkingDir, "testdata", "xml", "nominal", "example_succeeded.xml")
+	exampleFailed := filepath.Join(currentWorkingDir, "testdata", "xml", "nominal", "example_failed.xml")
+	exampleNotExisting := filepath.Join(currentWorkingDir, "testdata", "xml", "invalid", "example_not_existing.xml")
+	exampleXMLInvalid := filepath.Join(currentWorkingDir, "testdata", "xml", "invalid", "example_invalid.xml")
 
 	var tests = []struct {
 		path         string
@@ -40,6 +42,7 @@ func TestParseExecuteResponse(t *testing.T) {
 
 	loc, _ := time.LoadLocation("UTC")
 
+	// nominal tests
 	for _, test := range tests {
 		response, err := parseExecuteResponse(test.path)
 
@@ -68,5 +71,18 @@ func TestParseExecuteResponse(t *testing.T) {
 		if response.Process.Title != test.title {
 			t.Errorf("parseExecuteResponse returned creationTime %s instead of %s", response.Process.Title, test.title)
 		}
+	}
+
+	// invalid tests
+	_, err := parseExecuteResponse(exampleNotExisting)
+
+	if err == nil {
+		t.Errorf("parseExecuteResponse succedeed using the not existing file path %s", exampleNotExisting)
+	}
+
+	_, err = parseExecuteResponse(exampleXMLInvalid)
+
+	if err == nil {
+		t.Errorf("parseExecuteResponse succedeed using the invalid file %s", exampleXMLInvalid)
 	}
 }

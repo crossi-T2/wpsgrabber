@@ -28,7 +28,7 @@ func TestCreateCSV(t *testing.T) {
 	response.Process = process
 	response.Status = status
 
-	CSVfilename := filepath.Join(configuration.CSVOutputDir, uuid.New().String()+".csv")
+	CSVfilename := filepath.Join(configuration.OutputDir, uuid.New().String()+".csv")
 
 	err := createCSV(CSVfilename, &response)
 
@@ -44,7 +44,7 @@ func TestCreateCSV(t *testing.T) {
 
 	defer CSVfile.Close()
 
-	var expectedCSV = "com.terradue.wps_oozie.process.OozieAbstractAlgorithm,1.0.0,,not used,2020-04-26T09:16:58Z,2020-04-30T09:16:58Z,0"
+	var expectedCSV = "com.terradue.wps_oozie.process.OozieAbstractAlgorithm,1.0.0,,_request.xml,2020-04-26T09:16:58Z,2020-04-30T09:16:58Z,0"
 
 	scanner := bufio.NewScanner(CSVfile)
 	scanner.Scan()

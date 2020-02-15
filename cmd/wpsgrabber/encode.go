@@ -26,7 +26,7 @@ func createCSV(filename string, executeResponse *ExecuteResponse) error {
 		{processIdentifier,
 			processVersion,
 			executeResponse.Process.WorkflowIdentifier,
-			"not used",
+			executeResponse.Process.WorkflowIdentifier + "_request.xml",
 			executeResponse.Status.CreationTime.In(loc).Format(time.RFC3339),
 			executeResponse.Status.EndTime.In(loc).Format(time.RFC3339),
 			strconv.Itoa(executeResponse.Status.ProcessStatus)},
