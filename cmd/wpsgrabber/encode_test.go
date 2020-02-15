@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"github.com/google/uuid"
 	"os"
 	"path/filepath"
 	"testing"
@@ -28,7 +27,7 @@ func TestCreateCSV(t *testing.T) {
 	response.Process = process
 	response.Status = status
 
-	CSVfilename := filepath.Join(configuration.OutputDir, uuid.New().String()+".csv")
+	CSVfilename := filepath.Join(configuration.OutputDir, "_run.csv")
 
 	err := createCSV(CSVfilename, &response)
 
