@@ -1,6 +1,6 @@
 # wpsgrabber
 
-wpsgrabber is a tool for watching processing reports from a [52north WPS server](https://52north.org). For completed executions, it produces a different encoding (CSV + XML files) for further analysis.
+wpsgrabber is a tool for watching and analyse processing reports from a [52north WPS server](https://52north.org). For completed executions, it produces a different encoding (CSV + XML files) for further analysis.
 
 ## Usage
 
