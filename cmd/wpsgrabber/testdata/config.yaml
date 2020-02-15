@@ -1,0 +1,21 @@
+# Root directory from where start watching for reports 
+RootDir: ./testdata/xml/nominal
+
+# Directory where to write output
+OutputDir: ./testdata/csv
+
+# Optional. If set, the tool will scan for reports
+# with a modification time greater than ScanFrom.
+# It is useful to convert reports in the past.
+# Setting the zero value for Go's time, that is
+# January 1, year 1, 00:00:00 UTC
+# is equivalent to NOT setting the parameter 
+ScanFrom: 1983-05-22T14:13:00Z
+
+# Optional. If set, the tool will override the value
+# provided in the WPS Execute Response document
+ProcessIdentifier: nextgeoss-sentinel2-biopar
+
+# Optional. If set, the tool will override the value
+# provided in the WPS Execute Response document
+ProcessVersion: 1.4
