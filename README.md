@@ -43,6 +43,10 @@ go build -o wpsgrabber cmd/wpsgrabber/*.go
 
 Instructions here.
 
+## Further development
+
+* Allow the specification of the CSV fields via configuration file
+
 ## Related Projects
 
 * [52north](https://52north.org)
