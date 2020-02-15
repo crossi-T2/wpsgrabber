@@ -1,6 +1,6 @@
 # wpsgrabber
 
-wpsgrabber is a tool for watching processing reports from a [52north WPS server](https://52north.org) and producing a different encoding (CSV + XML files) for further analysis.
+wpsgrabber is a tool for watching processing reports from a [52north WPS server](https://52north.org). For completed executions, it produceds a different encoding (CSV + XML files) for further analysis.
 
 ## Usage
 
@@ -30,7 +30,7 @@ ProcessIdentifier: nextgeoss-sentinel2-biopar
 ProcessVersion: 1.4
 ```
 
-Get the code and run:
+Get the code, build and run it:
 
 ```bash
 git clone https://github.com/crossi-T2/wpsgrabber
