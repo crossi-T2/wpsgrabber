@@ -1,34 +1,47 @@
 # wpsgrabber
 
-wpsgrabber is a tool for watching processing reports from a [52north WPS server](https://52north.org) and producing simple CSV files for further analysis.
+wpsgrabber is a tool for watching processing reports from a [52north WPS server](https://52north.org) and producing a different encoding (CSV + XML files) for further analysis.
 
 ## Usage
 
-First define a *config.json* JSON configuration file:
+First define a *config.yaml* YAML configuration file:
 
-```json
-{
-     "RootDir": "/tmp/foo",
-     "CSVOutputDir": "/tmp/csv",
-     "ProcessIdentifier": "nextgeoss-sentinel2-biopar",
-     "ProcessVersion": "1.4"
-}
+```yaml
+# Root directory from where start watching for reports
+RootDir: /tmp/foo
+
+# Directory where to write output
+OutputDir: /tmp/bar
+
+# Optional. If set, the tool will scan for reports
+# with a modification time greater than ScanFrom.
+# It is useful to convert reports in the past.
+# Setting the zero value for Go's time, that is
+# January 1, year 1, 00:00:00 UTC
+# is equivalent to NOT setting the parameter
+ScanFrom: 1983-05-22T14:13:00Z
+
+# Optional. If set, the tool will override the value
+# provided in the WPS Execute Response document
+ProcessIdentifier: nextgeoss-sentinel2-biopar
+
+# Optional. If set, the tool will override the value
+# provided in the WPS Execute Response document
+ProcessVersion: 1.4
 ```
-
-
-**Note**: The optional `ProcessIdentifier` and `ProcessVersion` overrides the ones provided by the WPS Execute Response document. 
 
 Get the code and run:
 
 ```bash
 git clone https://github.com/crossi-T2/wpsgrabber
 cd wpsgrabber
-go run main.go -c /path/to/the/config.json
+go build -o wpsgrabber cmd/wpsgrabber/*.go
+./wpsgrabber -config /path/to/the/config.yaml
 ```
 
-## Stability
+## Installation via RPM
 
-The tool is under active development and not ready for production.
+Instructions here.
 
 ## Related Projects
 
