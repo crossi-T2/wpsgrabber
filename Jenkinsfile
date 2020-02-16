@@ -68,12 +68,15 @@ for (x in labels) {
 
                     // Read the upload specs
                     def release = sh(returnStdout: true, script: 'rpm -E %{rhel}').trim()
+
+                    echo release
+                    def uploadSpec
                     
                     if (release == '6')	
-                        def uploadSpec = readFile 'build/deploy/artifactdeploy-el6.json'
+                        uploadSpec = readFile 'build/deploy/artifactdeploy-el6.json'
                     else
                         if (release == '7')
-                            def uploadSpec = readFile 'build/deploy/artifactdeploy-el7.json'
+                            uploadSpec = readFile 'build/deploy/artifactdeploy-el7.json'
 
                     // Upload files to Artifactory:
                     def buildInfo = server.upload spec: uploadSpec
