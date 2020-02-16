@@ -68,9 +68,9 @@ for (x in labels) {
                     // Read the upload specs
                     if (label == 'c6-jenkins-go')
                         def uploadSpec = readFile 'build/deploy/artifactdeploy-el6.json'
-                    else
-                        if (label == 'c7-jenkins-go')
-                            def uploadSpec = readFile 'build/deploy/artifactdeploy-el7.json'
+                    
+                    if (label == 'c7-jenkins-go')
+                        def uploadSpec = readFile 'build/deploy/artifactdeploy-el7.json'
 
                     // Upload files to Artifactory:
                     def buildInfo = server.upload spec: uploadSpec
