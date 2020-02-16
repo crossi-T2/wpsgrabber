@@ -1,6 +1,6 @@
 # wpsgrabber
 
-wpsgrabber is a tool for watching and analyse processing reports from a [52north WPS server](https://52north.org). For completed executions, it produces a different encoding (CSV + XML files) for further analysis.
+wpsgrabber is a tool for watching and analyse processing reports from a [52north WPS server](https://52north.org). For completed executions, it produces a pair of CSV + XML encoded files for further analysis.
 
 ## Usage
 
@@ -35,6 +35,7 @@ Get the code, build and run it:
 ```bash
 git clone https://github.com/crossi-T2/wpsgrabber
 cd wpsgrabber
+go get -d ./...
 go build -o wpsgrabber cmd/wpsgrabber/*.go
 ./wpsgrabber -config /path/to/the/config.yaml
 ```
