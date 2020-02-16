@@ -65,8 +65,12 @@ for (x in labels) {
                     // Obtain an Artifactory server instance, defined in Jenkins --> Manage:
                     def server = Artifactory.server "repository.terradue.com"
 
-                    // Read the upload specs:
-                    def uploadSpec = readFile 'build/deploy/artifactdeploy.json'
+                    // Read the upload specs
+                    if (label == 'c6-jenkins-go')
+                        def uploadSpec = readFile 'build/deploy/artifactdeploy-el6.json'
+                    else
+                        if (label == 'c6-jenkins-go')
+                            def uploadSpec = readFile 'build/deploy/artifactdeploy-el7.json'
 
                     // Upload files to Artifactory:
                     def buildInfo = server.upload spec: uploadSpec
