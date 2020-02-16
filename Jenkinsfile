@@ -61,17 +61,18 @@ for (x in labels) {
 
             stage('Publish') {
                 echo 'Publishing'
-		echo env.NODE_NAME
 
                 script {
                     // Obtain an Artifactory server instance, defined in Jenkins --> Manage:
                     def server = Artifactory.server "repository.terradue.com"
 
                     // Read the upload specs
-                    if (env.NODE_NAME == 'c6-jenkins-go')
+		    c6 = env.NODE_NAME ==~ /c6-jenkins.*/                                              
+		    if (c6)	
                         def uploadSpec = readFile 'build/deploy/artifactdeploy-el6.json'
                     else
-                        if (env.NODE_NAME == 'c7-jenkins-go')
+		        c7 = env.NODE_NAME ==~ /c7-jenkins.*/                                              
+                        if (c7)
                             def uploadSpec = readFile 'build/deploy/artifactdeploy-el7.json'
 
                     // Upload files to Artifactory:
