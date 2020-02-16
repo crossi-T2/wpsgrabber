@@ -69,7 +69,6 @@ for (x in labels) {
                     // Read the upload specs
                     def release = sh(returnStdout: true, script: 'rpm -E %{rhel}').trim()
 
-                    echo release
                     def uploadSpec
                     
                     if (release == '6')	
