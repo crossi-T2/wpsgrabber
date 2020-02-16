@@ -27,6 +27,7 @@ func TestCreateCSV(t *testing.T) {
 	response.Process = process
 	response.Status = status
 
+	// nominal tests
 	CSVfilename := filepath.Join(configuration.OutputDir, "_run.csv")
 
 	err := createCSV(CSVfilename, &response)
@@ -54,4 +55,13 @@ func TestCreateCSV(t *testing.T) {
 	}
 
 	os.Remove(CSVfilename)
+
+	// invalid tests
+	CSVfilename = filepath.Join(configuration.OutputDir, "invalid", "_run.csv")
+
+	err = createCSV(CSVfilename, &response)
+
+	if err == nil {
+		t.Errorf("createCSV should have failed with an invalid CSV path")
+	}
 }
