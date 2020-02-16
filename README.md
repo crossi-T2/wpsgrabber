@@ -8,10 +8,10 @@ First define a *config.yaml* YAML configuration file:
 
 ```yaml
 # Root directory from where start watching for reports
-RootDir: /tmp/foo
+RootDir: /var/cache/tomcat6/temp/Database/Results/
 
 # Directory where to write output
-OutputDir: /tmp/bar
+OutputDir: /home/filebeat/beats
 
 # Optional. If set, the tool will scan for reports
 # with a modification time greater than ScanFrom.
