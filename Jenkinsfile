@@ -67,12 +67,12 @@ for (x in labels) {
                     def server = Artifactory.server "repository.terradue.com"
 
                     // Read the upload specs
-		    c6 = env.NODE_NAME ==~ /c6-jenkins.*/                                              
-		    if (c6)	
+                    def release = sh(returnStdout: true, script: 'rpm -E %{rhel}').trim()
+                    
+                    if (release == '6')	
                         def uploadSpec = readFile 'build/deploy/artifactdeploy-el6.json'
                     else
-		        c7 = env.NODE_NAME ==~ /c7-jenkins.*/                                              
-                        if (c7)
+                        if (release == '7')
                             def uploadSpec = readFile 'build/deploy/artifactdeploy-el7.json'
 
                     // Upload files to Artifactory:
