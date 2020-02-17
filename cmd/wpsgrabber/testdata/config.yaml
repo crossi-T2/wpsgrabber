@@ -2,7 +2,7 @@
 RootDir: ./testdata/xml/nominal
 
 # Directory where to write output
-OutputDir: ./testdata/csv
+OutputDir: /tmp
 
 # Optional. If set, the tool will scan for reports
 # with a modification time greater than ScanFrom.
