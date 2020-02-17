@@ -171,22 +171,28 @@ func New(configFile string) error {
 
 func EncodeResponse(response *ExecuteResponse, sourcePath string) error {
 
-	CSVfilename := filepath.Join(configuration.OutputDir, response.Process.WorkflowIdentifier+"_run.csv")
-	XMLfilename := filepath.Join(configuration.OutputDir, response.Process.WorkflowIdentifier+"_request.xml")
+	CSVFilename := filepath.Join(configuration.OutputDir, response.Process.WorkflowIdentifier+"_run.csv")
+	XMLFilename := filepath.Join(configuration.OutputDir, response.Process.WorkflowIdentifier+"_request.xml")
 
-	err := createCSV(CSVfilename, response)
+	err := createCSV(CSVFilename, response)
 
 	if err != nil {
 		err = fmt.Errorf("failed CSV encoding for %s: %v", sourcePath, err)
 		return err
 	}
 
-	sourceFile, _ := ioutil.ReadFile(sourcePath)
-	ioutil.WriteFile(XMLfilename, sourceFile, 0644)
+	XMLRequestPath := filepath.Join(filepath.Base(sourcePath), "request.xml")
+	XMLRequestFile, err := ioutil.ReadFile(XMLRequestPath)
 
-	log.Println("CSV file created:", CSVfilename)
-	log.Println("XML file created:", XMLfilename)
+	if err != nil {
+		err = fmt.Errorf("failed reading %s: %v", XMLRequestPath, err)
+		return err
+	}
+
+	ioutil.WriteFile(XMLFilename, XMLRequestFile, 0644)
+
+	log.Println("CSV file created:", CSVFilename)
+	log.Println("XML file created:", XMLFilename)
 
 	return nil
-
 }
