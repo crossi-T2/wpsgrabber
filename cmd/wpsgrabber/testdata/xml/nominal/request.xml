@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ns:Execute xmlns:ns="http://www.opengis.net/wps/1.0.0" service="WPS" version="1.0.0">
+  <ns1:Identifier xmlns:ns1="http://www.opengis.net/ows/1.1">com.terradue.wps_oozie.process.OozieAbstractAlgorithm</ns1:Identifier>
+  <ns:DataInputs>
+    <ns:Input>
+      <ns1:Identifier xmlns:ns1="http://www.opengis.net/ows/1.1">startdate</ns1:Identifier>
+      <ns:Data>
+        <ns:LiteralData dataType="xs:string">2018-05-08T10:40:31.0250000Z</ns:LiteralData>
+      </ns:Data>
+    </ns:Input>
+    <ns:Input>
+      <ns1:Identifier xmlns:ns1="http://www.opengis.net/ows/1.1">enddate</ns1:Identifier>
+      <ns:Data>
+        <ns:LiteralData dataType="xs:string">2018-05-08T10:40:31.0250000Z</ns:LiteralData>
+      </ns:Data>
+    </ns:Input>
+    <ns:Input>
+      <ns1:Identifier xmlns:ns1="http://www.opengis.net/ows/1.1">uid</ns1:Identifier>
+      <ns:Data>
+        <ns:LiteralData dataType="xs:string">S2A_MSIL1C_20180508T104031_N0206_R008_T30QUD_20180508T193945</ns:LiteralData>
+      </ns:Data>
+    </ns:Input>
+    <ns:Input>
+      <ns1:Identifier xmlns:ns1="http://www.opengis.net/ows/1.1">qgeom</ns1:Identifier>
+      <ns:Data>
+        <ns:LiteralData dataType="xs:string">POLYGON((-6.284%2024.727%2C-4.834%2024.867%2C0.879%2020.982%2C1.077%2020.592%2C1.912%2020.015%2C2.197%2020.118%2C2.966%2019.58%2C2.944%2018.958%2C3.34%2018.813%2C4.043%2018.854%2C4.021%2016.426%2C3.384%2015.581%2C-0.747%2015.242%2C-3.01%2014.179%2C-3.56%2013.411%2C-3.955%2013.646%2C-4.57%2013.261%2C-4.702%2012.426%2C-5.669%2011.867%2C-5.647%2010.661%2C-6.196%2010.92%2C-6.812%2010.833%2C-7.031%2010.445%2C-7.625%2010.682%2C-7.866%2010.509%2C-8.086%2011.394%2C-9.009%2012.726%2C-10.195%2012.404%2C-11.096%2012.469%2C-11.316%2013.518%2C-11.909%2014.499%2C-11.448%2015.178%2C-10.833%2014.796%2C-10.173%2015.263%2C-5.295%2015.305%2C-5.076%2016.32%2C-5.427%2016.784%2C-6.284%2024.727))</ns:LiteralData>
+      </ns:Data>
+    </ns:Input>
+  </ns:DataInputs>
+  <ns:ResponseForm>
+    <ns:ResponseDocument storeExecuteResponse="true">
+      <ns:Output asReference="false" mimeType="application/xml">
+        <ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">result_distribution</ows:Identifier>
+      </ns:Output>
+      <ns:Output>
+        <ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">result_osd</ows:Identifier>
+      </ns:Output>
+    </ns:ResponseDocument>
+  </ns:ResponseForm>
+</ns:Execute>
