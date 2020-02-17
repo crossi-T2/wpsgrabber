@@ -72,7 +72,14 @@ func New(configFile string) error {
 								response.Status.ProcessStatus == 1 {
 
 								log.Println("found:", path)
-								EncodeResponse(response, path)
+
+								err = EncodeResponse(response, path)
+
+								if err != nil {
+									err = fmt.Errorf("can't encode %s: %v ", path, err)
+									return err
+								}
+
 							}
 						}
 					}
@@ -130,7 +137,12 @@ func New(configFile string) error {
 							if response.Status.ProcessStatus == 0 ||
 								response.Status.ProcessStatus == 1 {
 
-								EncodeResponse(response, event.Name)
+								err = EncodeResponse(response, event.Name)
+
+								if err != nil {
+									err = fmt.Errorf("can't encode %s: %v ", event.Name, err)
+									return err
+								}
 
 								// At this stage, there is no need to continue watching the parent
 								// folder, since the processing execution information has been managed.
@@ -143,7 +155,7 @@ func New(configFile string) error {
 								}
 							}
 						} else {
-							log.Printf("filename does not match regex '.*.xml$', skipping %s", event.Name)
+							log.Printf("filename does not match regex '^[0-9]+.xml$', skipping %s", event.Name)
 						}
 					}
 				}
@@ -180,7 +192,7 @@ func EncodeResponse(response *ExecuteResponse, sourcePath string) error {
 		return err
 	}
 
-	XMLRequestPath := filepath.Join(filepath.Base(sourcePath), "request.xml")
+	XMLRequestPath := filepath.Join(filepath.Dir(sourcePath), "request.xml")
 	XMLRequestFile, err := ioutil.ReadFile(XMLRequestPath)
 
 	if err != nil {

@@ -46,6 +46,10 @@ func parseExecuteResponse(responseFile string) (*ExecuteResponse, error) {
 
 	var executeResponse ExecuteResponse
 
+	// Default value for ProcessStatus, otherwise it will set
+	// the zero-value for it, which means Succeeded in this context
+	executeResponse.Status.ProcessStatus = 999
+
 	if err := xml.Unmarshal(byteValue, &executeResponse); err != nil {
 		err = fmt.Errorf("can't unmarshal file: %v ", err)
 		return nil, err
@@ -66,7 +70,7 @@ func parseExecuteResponse(responseFile string) (*ExecuteResponse, error) {
 		// Determine the value for executeResponse.Status.ProcessStatus
 		if executeResponse.Status.ProcessSucceeded.Local != "" {
 			executeResponse.Status.ProcessStatus = 0
-		} else {
+		} else if executeResponse.Status.ProcessFailed.Local != "" {
 			executeResponse.Status.ProcessStatus = 1
 		}
 	}

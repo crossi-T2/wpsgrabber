@@ -13,8 +13,9 @@ func TestParseExecuteResponse(t *testing.T) {
 
 	exampleSucceeded := filepath.Join(currentWorkingDir, "testdata", "xml", "nominal", "0.xml")
 	exampleFailed := filepath.Join(currentWorkingDir, "testdata", "xml", "nominal", "1.xml")
+	exampleAccepted := filepath.Join(currentWorkingDir, "testdata", "xml", "nominal", "2.xml")
 	exampleNotExisting := filepath.Join(currentWorkingDir, "testdata", "xml", "invalid", "example_not_existing.xml")
-	exampleXMLInvalid := filepath.Join(currentWorkingDir, "testdata", "xml", "invalid", "2.xml")
+	exampleXMLInvalid := filepath.Join(currentWorkingDir, "testdata", "xml", "invalid", "0.xml")
 
 	var tests = []struct {
 		path         string
@@ -37,6 +38,13 @@ func TestParseExecuteResponse(t *testing.T) {
 			"com.terradue.wps_oozie.process.OozieAbstractAlgorithm",
 			"1.0.0",
 			"SRTM Digital Elevation Model",
+		},
+		{exampleAccepted,
+			999,
+			"2020-02-17T13:56:52Z",
+			"com.terradue.wps_oozie.process.OozieAbstractAlgorithm",
+			"1.0.0",
+			"Prepare an OGC Web Processing Service",
 		},
 	}
 
