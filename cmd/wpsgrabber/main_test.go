@@ -57,7 +57,7 @@ func TestMain(t *testing.T) {
 		os.Mkdir(NewRequestsDir, 0755)
 
 		time.Sleep(100 * time.Millisecond)
-		sourcePath := filepath.Join(configuration.Get().RootDir, "example_succeeded.xml")
+		sourcePath := filepath.Join(configuration.Get().RootDir, "0.xml")
 		destPath := filepath.Join(NewRequestsDir, "0.xml")
 
 		sourceFile, _ := ioutil.ReadFile(sourcePath)

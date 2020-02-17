@@ -60,13 +60,12 @@ func New(configFile string) error {
 					if file.ModTime().After(configuration.ScanFrom) {
 
 						// We do expect updates in XML files in the form 0.xml 1.xml 2.xml etc.
-						matched, _ := regexp.MatchString(`.*.xml$`, path)
+						matched, _ := regexp.MatchString(`^[0-9]+.xml$`, filepath.Base(path))
 						if matched {
 							response, err := parseExecuteResponse(path)
 
 							if err != nil {
 								err = fmt.Errorf("can't parse %s: %v ", path, err)
-								return err
 							}
 
 							if response.Status.ProcessStatus == 0 ||
@@ -120,7 +119,7 @@ func New(configFile string) error {
 					} else {
 						log.Println("new file:", event.Name)
 						// We do expect updates in XML files in the form 0.xml 1.xml 2.xml etc.
-						matched, _ := regexp.MatchString(`.*.xml$`, path.Base(event.Name))
+						matched, _ := regexp.MatchString(`^[0-9]+.xml$`, path.Base(event.Name))
 						if matched {
 							response, err := parseExecuteResponse(event.Name)
 							if err != nil {
