@@ -47,12 +47,12 @@ go build -o wpsgrabber cmd/wpsgrabber/*.go
 ## Installation via RPM
 
 * Install the RPM [^1]:
-```
+```bash
 yum install wpsgrabber
 ```
 * Adapt the configuration file located in */etc/wpsgrabber/config.yaml*
 * Start the service:
-```
+```bash
 service wpsgrabber start
 ```
 
