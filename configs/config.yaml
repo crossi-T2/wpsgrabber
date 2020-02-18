@@ -4,6 +4,10 @@ RootDir: /var/cache/tomcat6/temp/Database/Results/
 # Directory where to write output 
 OutputDir: /home/filebeat/beats
 
+# Optional. If set, the tool will write log information
+# to the specified file. Default is stderr.
+LogFile: /var/log/wpsgrabber.log
+
 # Optional. If set, the tool will scan for reports
 # with a modification time greater than ScanFrom.
 # It is useful to convert reports in the past.

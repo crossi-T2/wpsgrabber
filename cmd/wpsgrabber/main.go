@@ -17,6 +17,7 @@ import (
 
 type Configuration struct {
 	RootDir           string    `yaml:"RootDir"`
+	LogFile           string    `yaml:"LogFile"`
 	ScanFrom          time.Time `yaml:"ScanFrom"`
 	OutputDir         string    `yaml:"OutputDir"`
 	ProcessIdentifier string    `yaml:"ProcessIdentifier"`
@@ -45,6 +46,17 @@ func New(configFile string) error {
 		return err
 	}
 	err = yaml.Unmarshal(yamlFile, &configuration)
+
+	if configuration.LogFile != "" {
+		logFile, err := os.OpenFile(configuration.LogFile, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
+
+		if err != nil {
+			err = fmt.Errorf("can't open log file %s: %v ", configuration.LogFile, err)
+			return err
+		}
+
+		log.SetOutput(logFile)
+	}
 
 	// If ScanFrom was configured, it would scan the RootDir for WPS Execute response reports
 	if !configuration.ScanFrom.IsZero() {

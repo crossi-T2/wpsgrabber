@@ -5,7 +5,7 @@ Description=Service for wpsgrabber
 Type=simple
 User=root
 Group=root
-ExecStart=/usr/local/bin/wpsgrabber /config=/etc/wpsgrabber/config.yaml /logfile=/var/log/wpsgrabber/wpsgrabber.log
+ExecStart=/usr/local/bin/wpsgrabber
 Restart=always
 RestartSec=5
 TimeoutStopSec=5
