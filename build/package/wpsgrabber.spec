@@ -1,3 +1,5 @@
+%define use_systemd (0%{?fedora} && 0%{?fedora} >= 18) || (0%{?rhel} && 0%{?rhel} >= 7) || (0%{?suse_version} && 0%{?suse_version} >=1210)
+
 Name:           wpsgrabber
 Url:            https://github.com/crossi-T2/wpsgrabber
 License:        AGPLv3
@@ -10,7 +12,7 @@ BuildRequires:  libtool
 
 
 %description
-wpsgrabber is a tool for watching processing reports from a 52north WPS server (https://52north.org) and producing simple CSV files for further analysis.
+wpsgrabber is a tool for watching and analyse processing reports from a 52north WPS server (https://52north.org).
 
 %define debug_package %{nil}
 
@@ -20,47 +22,35 @@ wpsgrabber is a tool for watching processing reports from a 52north WPS server (
 
 
 %install
-mkdir -p %{buildroot}%{_sysconfdir}/wpsgrabber/init
-cp %{_sourcedir}/init/wpsgrabber.service %{buildroot}%{_sysconfdir}/wpsgrabber/init/
-cp %{_sourcedir}/init/wpsgrabber %{buildroot}%{_sysconfdir}/wpsgrabber/init/
-cp -r %{_sourcedir}/configs/config.yaml %{buildroot}%{_sysconfdir}/wpsgrabber
-mkdir -p %{buildroot}/usr/local/bin/
-cp %{_sourcedir}/wpsgrabber %{buildroot}/usr/local/bin/
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
+%{__install} -m644 %{_sourcedir}/configs/config.yaml %{buildroot}%{_sysconfdir}/%{name}
+%{__mkdir} -p %{buildroot}/usr/local/bin/
+cp %{_sourcedir}/%{name} %{buildroot}/usr/local/bin/
+%if %{use_systemd}
+# systemd-specific files
+%{__mkdir} -p %{buildroot}%{_unitdir}
+%{__install} -m644 %{_sourcedir}/init/%{name}.service \
+    %{buildroot}%{_unitdir}/%{name}.service
+%else
+# SYSV init files
+%{__install} -D -m 755 %{_sourcedir}/init/%{name} %{buildroot}%{_initrddir}/%{name}
+%endif
 
 %post
-#!/bin/bash
-mkdir -p /var/log/wpsgrabber/
-
-centos=$(rpm -E %{rhel})
-
-if [ "${centos}" == "6" ]; then
-    cp /etc/wpsgrabber/init/wpsgrabber /etc/init.d/
-    chmod +x /etc/init.d/wpsgrabber
-else
-    if [ "${centos}" == "7" ]; then
-        /etc/wpsgrabber/init/wpsgrabber.service /usr/lib/systemd/system/
-    fi
-fi
 
 %postun
-#!/bin/bash
-rm -rf /var/log/wpsgrabber/
-
-centos=$(rpm -E %{rhel})
-
-if [ "${centos}" == "6" ]; then
-    rm -f /etc/init.d/wpsgrabber
-else
-    if [ "${centos}" == "7" ]; then
-        rm -f /usr/lib/systemd/system/wpsgrabber.service
-    fi
-fi
 
 %clean
 rm -rf %{buildroot}
 
 %files
-%config(noreplace) %{_sysconfdir}/*
-/usr/local/bin/wpsgrabber
+%config(noreplace) %{_sysconfdir}/%{name}
+%config(noreplace) %{_sysconfdir}/%{name}/*
+/usr/local/bin/%{name}
+%if %{use_systemd}
+%{_unitdir}/%{name}.service
+%else
+%{_initrddir}/%{name}
+%endif
 
 %changelog
