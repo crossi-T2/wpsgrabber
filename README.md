@@ -1,6 +1,6 @@
 # wpsgrabber
 
-wpsgrabber is a tool for watching and analyse processing reports from a [52north WPS server](https://52north.org). For completed executions, it produces a pair of CSV + XML encoded files for further analysis.
+wpsgrabber is a tool for watching and analysing processing reports from a [52north WPS server](https://52north.org). For completed executions, it produces a pair of CSV + XML encoded files for further analysis.
 
 ## Usage
 
@@ -46,7 +46,15 @@ go build -o wpsgrabber cmd/wpsgrabber/*.go
 
 ## Installation via RPM
 
-Instructions here.
+* Install the RPM [^1]:
+```
+yum install wpsgrabber
+```
+* Adapt the configuration file located in */etc/wpsgrabber/config.yaml*
+* Start the service:
+```
+service wpsgrabber start
+```
 
 ## Further development
 
@@ -56,3 +64,5 @@ Instructions here.
 
 * [52north](https://52north.org)
 * [fsnotify](https://github.com/fsnotify/fsnotify)
+
+[^1]: RPMs files for CentOS 6/7 are available under https://github.com/crossi-T2/wpsgrabber/releases
